@@ -1,0 +1,17 @@
+/* Dashboard Layout Styles */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.dashboard-content {
+  flex: 1;
+  min-width: 0; /* Prevent content overflow */
+}
+
+@media (max-width: 1024px) {
+  .dashboard-content {
+    width: 100%;
+  }
+}

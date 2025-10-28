@@ -1,0 +1,29 @@
+/* Sidebar Layout */
+.sidebar-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 16rem; /* 64px when collapsed, 256px when expanded */
+  transition: margin-left 0.3s ease-in-out;
+  width: calc(100% - 16rem);
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 4rem;
+  width: calc(100% - 4rem);
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .main-content.sidebar-collapsed {
+    margin-left: 0;
+    width: 100%;
+  }
+}

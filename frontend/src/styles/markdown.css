@@ -1,0 +1,175 @@
+/* Markdown content styling for synthesis responses */
+.markdown-content {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #f3f4f6; /* Much brighter text for dark background */
+}
+
+.markdown-content h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #60a5fa; /* Bright blue for headers */
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #4b5563;
+  padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #93c5fd; /* Lighter blue for subheaders */
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #bfdbfe; /* Even lighter blue */
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content strong {
+  font-weight: 600;
+  color: #ffffff; /* Pure white for strong emphasis */
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.25rem;
+  padding-left: 0.25rem;
+  color: #e5e7eb; /* Light gray for list items */
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #d1d5db; /* Light text for quotes */
+  background-color: rgba(59, 130, 246, 0.1); /* Semi-transparent blue background */
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid #6b7280;
+  margin: 1.5rem 0;
+}
+
+.markdown-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+  color: #f3f4f6; /* Bright text for paragraphs */
+}
+
+.markdown-content code {
+  background-color: rgba(75, 85, 99, 0.5);
+  color: #fbbf24; /* Yellow for code */
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.markdown-content pre {
+  background-color: rgba(75, 85, 99, 0.5);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Checkbox styling for task lists */
+.markdown-content input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+  accent-color: #3b82f6;
+}
+
+/* Priority sections styling */
+.markdown-content h2:has(+ ul) {
+  position: relative;
+}
+
+/* Special styling for emoji headers */
+.markdown-content h1:first-child {
+  margin-top: 0;
+}
+
+/* Nested list styling */
+.markdown-content ul ul,
+.markdown-content ol ul,
+.markdown-content ul ol,
+.markdown-content ol ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 1rem;
+}
+
+/* Improve readability for nested content */
+.markdown-content ul li ul li {
+  font-size: 0.95rem;
+  color: #d1d5db; /* Lighter gray for nested items */
+}
+
+/* Highlight urgent/important sections with better visibility */
+.markdown-content h2:contains("URGENT"),
+.markdown-content h2:contains("🚨") {
+  color: #fca5a5; /* Light red for urgent */
+  text-shadow: 0 0 10px rgba(252, 165, 165, 0.3);
+}
+
+.markdown-content h2:contains("IMPORTANT"),
+.markdown-content h2:contains("⚡") {
+  color: #fcd34d; /* Light yellow for important */
+  text-shadow: 0 0 10px rgba(252, 211, 77, 0.3);
+}
+
+.markdown-content h2:contains("AMÉLIORATION"),
+.markdown-content h2:contains("IMPROVEMENT"),
+.markdown-content h2:contains("📈") {
+  color: #86efac; /* Light green for improvement */
+  text-shadow: 0 0 10px rgba(134, 239, 172, 0.3);
+}
+
+/* Add subtle glow to all headers for better visibility */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  text-shadow: 0 0 8px rgba(147, 197, 253, 0.2);
+}
+
+/* Enhance emoji visibility */
+.markdown-content h1,
+.markdown-content h2 {
+  font-size: 1.1em; /* Slightly larger to make emojis more visible */
+}
+
+/* Better spacing for sections */
+.markdown-content > * + h1 {
+  margin-top: 2rem;
+}
+
+.markdown-content > * + h2 {
+  margin-top: 1.5rem;
+}
