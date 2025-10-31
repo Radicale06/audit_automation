@@ -85,36 +85,17 @@ def get_initial_mission_description(conversation_history: List[Dict]) -> str:
     return "Mission d'audit de sécurité informatique"
 
 def format_cadrage_response(cadrage_data: Dict[str, Any]) -> str:
-    """Format cadrage data as HTML table with download button"""
-    html = f"""
-    <div class="audit-table-container">
-    <h3>📋 Cadrage de Mission d'Audit</h3>
-    <table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">
-        <thead>
-            <tr style="background-color: #f8f9fa;">
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Champ</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Détail</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Domaine(s) concerné(s)</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{cadrage_data.get('domaines', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Processus inclus</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{cadrage_data.get('processus', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Exclusions éventuelles</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{cadrage_data.get('exclusions', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Référentiels pris en compte</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{cadrage_data.get('referentiels', 'ISO 27001, ANCS')}</td></tr>
-    """
+    """Format cadrage data as plain text response"""
+    response = "📋 **Cadrage de Mission d'Audit**\n\n"
+    response += f"**Domaine(s) concerné(s):** {cadrage_data.get('domaines', '')}\n"
+    response += f"**Processus inclus:** {cadrage_data.get('processus', '')}\n"
+    response += f"**Exclusions éventuelles:** {cadrage_data.get('exclusions', '')}\n"
+    response += f"**Référentiels pris en compte:** {cadrage_data.get('referentiels', 'ISO 27001, ANCS')}\n\n"
     
     for i, objectif in enumerate(cadrage_data.get('objectifs', []), 1):
-        html += f'<tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Objectif {i}</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{objectif}</td></tr>'
+        response += f"**Objectif {i}:** {objectif}\n"
     
-    html += """
-        </tbody>
-    </table>
-    <button onclick="downloadExcel('cadrage')" style="margin-top: 10px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        📊 Télécharger Cadrage Excel
-    </button>
-    </div>
-    """
-    return html
+    return response
 
 def get_cadrage_from_history(conversation_history: List[Dict]) -> Dict[str, Any]:
     """Extract cadrage data from conversation history"""
@@ -126,43 +107,15 @@ def get_cadrage_from_history(conversation_history: List[Dict]) -> Dict[str, Any]
     return {"mission": "Audit de sécurité informatique", "scope": "Infrastructure IT"}
 
 def format_checklist_response(checklist: List[Dict[str, str]]) -> str:
-    """Format checklist as HTML table with download button"""
-    html = """
-    <div class="audit-table-container">
-    <h3>✅ Checklist d'Audit ISO 27001</h3>
-    <table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">
-        <thead>
-            <tr style="background-color: #e9ecef;">
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Section</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Exigence</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Assigné à</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Conforme</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Date MAJ</th>
-            </tr>
-        </thead>
-        <tbody>
-    """
+    """Format checklist as plain text response"""
+    response = "✅ **Checklist d'Audit ISO 27001**\n\n"
     
     for item in checklist:
-        html += f"""
-        <tr>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">{item.get('section', '')}</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">{item.get('exigence', '')}</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">{item.get('assigne_a', '')}</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">{item.get('conforme', '')}</td>
-            <td style="padding: 12px; border: 1px solid #dee2e6;">{item.get('date_maj', '')}</td>
-        </tr>
-        """
+        response += f"**Section:** {item.get('section', '')}\n"
+        response += f"**Exigence:** {item.get('exigence', '')}\n"
+        response += f"---\n"
     
-    html += """
-        </tbody>
-    </table>
-    <button onclick="downloadExcel('checklist')" style="margin-top: 10px; padding: 8px 16px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        📋 Télécharger Checklist Excel
-    </button>
-    </div>
-    """
-    return html
+    return response
 
 def get_mission_context_from_history(conversation_history: List[Dict]) -> Dict[str, Any]:
     """Get mission context from conversation history"""
@@ -181,7 +134,7 @@ def get_mission_context_from_history(conversation_history: List[Dict]) -> Dict[s
     return context
 
 def format_constat_response(constat_data: Dict[str, Any]) -> str:
-    """Format vulnerability finding as HTML table with download button"""
+    """Format vulnerability finding as plain text response"""
     criticite_color = {
         "Critique": "🔴",
         "Majeure": "🟠", 
@@ -191,33 +144,17 @@ def format_constat_response(constat_data: Dict[str, Any]) -> str:
     
     color = criticite_color.get(constat_data.get('criticite', ''), '🟡')
     
-    html = f"""
-    <div class="audit-table-container">
-    <h3>🔍 Constat d'Audit</h3>
-    <table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">
-        <thead>
-            <tr style="background-color: #f8f9fa;">
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Champ</th>
-                <th style="padding: 12px; border: 1px solid #dee2e6;">Détail</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Référence du constat</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('reference', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Intitulé du constat</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('intitule', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Entité auditée</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('entite', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Description du constat</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('description', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Criticité</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>{color} {constat_data.get('criticite', '')}</strong></td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Norme(s) de référence</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('normes', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Preuves</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('preuves', '')}</td></tr>
-            <tr><td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Recommandations</strong></td><td style="padding: 12px; border: 1px solid #dee2e6;">{constat_data.get('recommandations', '')}</td></tr>
-        </tbody>
-    </table>
-    <button onclick="downloadExcel('constat')" style="margin-top: 10px; padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        🔍 Télécharger Constat Excel
-    </button>
-    </div>
-    """
-    return html
+    response = "🔍 **Constat d'Audit**\n\n"
+    response += f"**Référence du constat:** {constat_data.get('reference', '')}\n"
+    response += f"**Intitulé du constat:** {constat_data.get('intitule', '')}\n"
+    response += f"**Entité auditée:** {constat_data.get('entite', '')}\n"
+    response += f"**Description du constat:** {constat_data.get('description', '')}\n"
+    response += f"**Criticité:** {color} {constat_data.get('criticite', '')}\n"
+    response += f"**Norme(s) de référence:** {constat_data.get('normes', '')}\n"
+    response += f"**Preuves:** {constat_data.get('preuves', '')}\n"
+    response += f"**Recommandations:** {constat_data.get('recommandations', '')}\n"
+    
+    return response
 
 def compile_mission_data_from_history(conversation_history: List[Dict]) -> Dict[str, Any]:
     """Compile all mission data from conversation history"""
@@ -242,50 +179,39 @@ def compile_mission_data_from_history(conversation_history: List[Dict]) -> Dict[
     return mission_data
 
 def generate_ancs_report(mission_data: Dict[str, Any]) -> str:
-    """Generate final ANCS report in PDF format"""
+    """Generate final ANCS report as plain text"""
     today = datetime.utcnow().strftime("%d/%m/%Y")
     
-    report = f"""
-    <div class="ancs-report">
-    <h1>📄 RAPPORT D'AUDIT DE SÉCURITÉ</h1>
-    <h2>Conforme aux normes ANCS</h2>
+    report = "📄 **RAPPORT D'AUDIT DE SÉCURITÉ**\n"
+    report += "*Conforme aux normes ANCS*\n\n"
     
-    <h3>1. CONTEXTE ET PÉRIMÈTRE</h3>
-    <p><strong>Mission :</strong> {mission_data.get('mission_description', 'Audit de sécurité informatique')}</p>
-    <p><strong>Périmètre :</strong> {mission_data.get('scope', 'Infrastructure informatique')}</p>
-    <p><strong>Date d'audit :</strong> {today}</p>
-    <p><strong>Référentiels :</strong> ISO 27001:2022, ANCS</p>
+    report += "## 1. CONTEXTE ET PÉRIMÈTRE\n"
+    report += f"**Mission:** {mission_data.get('mission_description', 'Audit de sécurité informatique')}\n"
+    report += f"**Périmètre:** {mission_data.get('scope', 'Infrastructure informatique')}\n"
+    report += f"**Date d'audit:** {today}\n"
+    report += "**Référentiels:** ISO 27001:2022, ANCS\n\n"
     
-    <h3>2. MÉTHODOLOGIE</h3>
-    <ul>
-        <li>Analyse documentaire</li>
-        <li>Entretiens avec les équipes</li>
-        <li>Tests techniques</li>
-        <li>Vérification de conformité</li>
-    </ul>
+    report += "## 2. MÉTHODOLOGIE\n"
+    report += "- Analyse documentaire\n"
+    report += "- Entretiens avec les équipes\n"
+    report += "- Tests techniques\n"
+    report += "- Vérification de conformité\n\n"
     
-    <h3>3. SYNTHÈSE DES CONSTATS</h3>
-    <p><strong>Nombre de constats identifiés :</strong> {len(mission_data.get('findings', []))}</p>
+    report += "## 3. SYNTHÈSE DES CONSTATS\n"
+    report += f"**Nombre de constats identifiés:** {len(mission_data.get('findings', []))}\n\n"
     
-    <h3>4. RECOMMANDATIONS PRIORITAIRES</h3>
-    <ul>
-        <li>Renforcer la gestion des accès privilégiés</li>
-        <li>Améliorer la surveillance de la sécurité</li>
-        <li>Mettre à jour les politiques de sécurité</li>
-    </ul>
+    report += "## 4. RECOMMANDATIONS PRIORITAIRES\n"
+    report += "- Renforcer la gestion des accès privilégiés\n"
+    report += "- Améliorer la surveillance de la sécurité\n"
+    report += "- Mettre à jour les politiques de sécurité\n\n"
     
-    <h3>5. PLAN D'ACTION</h3>
-    <p>Les actions correctives doivent être mises en œuvre selon les priorités définies.</p>
+    report += "## 5. PLAN D'ACTION\n"
+    report += "Les actions correctives doivent être mises en œuvre selon les priorités définies.\n\n"
     
-    <hr>
-    <p><strong>Date du rapport :</strong> {today}</p>
-    <p><strong>Référence :</strong> AUDIT-SEC-2025-001</p>
+    report += "---\n"
+    report += f"**Date du rapport:** {today}\n"
+    report += "**Référence:** AUDIT-SEC-2025-001\n"
     
-    <button onclick="downloadPDF('rapport')" style="margin-top: 20px; padding: 10px 20px; background-color: #6f42c1; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        📄 Télécharger Rapport PDF
-    </button>
-    </div>
-    """
     return report
 
 @router.get("/list")
@@ -365,49 +291,10 @@ async def send_message(
     # Get conversation history for context
     conversation_history = fake_messages[chat_id][:-1]  # Exclude the just-added user message
     
-    # Determine audit phase based on user input and conversation history
-    audit_phase = determine_audit_phase(request.prompt, conversation_history)
-    
-    # Generate AI response using appropriate Mistral service method based on phase
+    # Generate AI response using Mistral service
     try:
-        if audit_phase == "questions":
-            # Step 2: Generate pertinent questions about scope
-            ai_response = await mistral_service.generate_questions(request.prompt)
-            
-        elif audit_phase == "cadrage":
-            # Step 4: Generate mission scoping (Excel format)
-            qa_pairs = extract_qa_pairs_from_history(conversation_history)
-            cadrage_data = await mistral_service.generate_cadrage(
-                mission_description=get_initial_mission_description(conversation_history),
-                qa_pairs=qa_pairs
-            )
-            ai_response = format_cadrage_response(cadrage_data)
-            
-        elif audit_phase == "checklist":
-            # Step 6: Generate global checklist
-            cadrage_data = get_cadrage_from_history(conversation_history)
-            checklist = await mistral_service.generate_checklist(cadrage_data)
-            ai_response = format_checklist_response(checklist)
-            
-        elif audit_phase == "constat":
-            # Step 7: Generate vulnerability finding (Excel format)
-            context = get_mission_context_from_history(conversation_history)
-            constat_data = await mistral_service.generate_constat(request.prompt, context)
-            ai_response = format_constat_response(constat_data)
-            
-        elif audit_phase == "synthesis":
-            # Step 9: Generate synthesis of whole mission
-            mission_data = compile_mission_data_from_history(conversation_history)
-            ai_response = await mistral_service.generate_synthesis(mission_data)
-            
-        elif audit_phase == "rapport":
-            # Step 10: Generate final ANCS report (PDF format)
-            mission_data = compile_mission_data_from_history(conversation_history)
-            ai_response = generate_ancs_report(mission_data)
-            
-        else:
-            # Default: General chat or initial mission description
-            ai_response = "Bonjour ! Je suis votre assistant d'audit. Pour commencer, pouvez-vous me donner une description générale de votre mission d'audit ?"
+        # Always use general chat functionality
+        ai_response = await mistral_service.chat(request.prompt, conversation_history)
             
     except Exception as e:
         # Fallback to simple response if Mistral fails
