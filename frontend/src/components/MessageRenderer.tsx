@@ -128,7 +128,6 @@ const MessageRenderer: React.FC<MessageRendererProps> = ({ text, sender }) => {
         if (cell.innerHTML.includes('<br>')) {
           // Get the innerHTML and process it for Excel
           let htmlContent = cell.innerHTML;
-          console.log('Original HTML:', htmlContent);
           
           // Handle the pattern: • text<br>• text<br>• text
           cellText = htmlContent
@@ -143,7 +142,7 @@ const MessageRenderer: React.FC<MessageRendererProps> = ({ text, sender }) => {
             .replace(/&gt;/g, '>')
             .trim();
           
-          console.log('Final processed text for Excel:', JSON.stringify(cellText));
+
         }
         
         rowData.push(cellText);
@@ -153,7 +152,7 @@ const MessageRenderer: React.FC<MessageRendererProps> = ({ text, sender }) => {
       }
     });
 
-    console.log(`Extracted ${data.length} rows for type: ${type}`, data);
+
     return data;
   };
 
@@ -235,13 +234,6 @@ const MessageRenderer: React.FC<MessageRendererProps> = ({ text, sender }) => {
   const isHtmlContent = safeText.includes('<table') || safeText.includes('<div class="audit-table-container">');
   const isMarkdown = isMarkdownContent(safeText);
   
-  // Debug logging
-  console.log('MessageRenderer - Content type detection:', {
-    isHtmlContent,
-    isMarkdown,
-    textLength: safeText.length,
-    textPreview: safeText.substring(0, 100) + '...'
-  });
 
   if (sender === 'bot' && isHtmlContent) {
     // Sanitize HTML content for safety

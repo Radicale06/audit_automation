@@ -25,7 +25,6 @@ class ChatService {
     return chatRateLimiter.execute('chat_get_conversations', async () => {
       const response = await apiWithRetry.get<any>('/chat/list');
       const responseData = response.data;
-      console.log('API response from /chat/list:', responseData);
 
       let conversationList: any[] = [];
 
